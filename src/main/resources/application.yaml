@@ -1,3 +1,8 @@
 spring:
   application:
     name: ticket-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ticket_app
+    username: user
+    password: mysecretpassword
+    driver-class-name: org.postgresql.Driver
