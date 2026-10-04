@@ -21,13 +21,15 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-flyway'
     runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-database-postgresql:13.8.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-jdbc-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
     testImplementation 'org.testcontainers:testcontainers-postgresql'
-    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+    implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
