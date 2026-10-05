@@ -1,7 +1,8 @@
 create table if not exists airports
 (
     id uuid primary key,
-    name text
+    name text,
+    gates character(1)[]
 );
 
 create table if not exists flights

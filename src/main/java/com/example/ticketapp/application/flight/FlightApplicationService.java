@@ -4,10 +4,9 @@ import java.util.UUID;
 
 import com.example.ticketapp.application.flight.command.CreateFlightCommand;
 import com.example.ticketapp.application.flight.command.FlightCommand;
-import com.example.ticketapp.application.flight.model.CreateFlightNumberPayload;
 import com.example.ticketapp.domain.flight.Flight;
 import com.example.ticketapp.domain.flight.FlightRepository;
-import jakarta.annotation.Nonnull;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,25 +19,32 @@ public class FlightApplicationService
 
     public FlightApplicationService(FlightRepository flightRepository) {this.flightRepository = flightRepository;}
 
-    public void process(FlightCommand command)
+    public Either<RuntimeException, Flight> process(FlightCommand command)
     {
         switch (command)
         {
-            case CreateFlightCommand createFlightCommand -> this.flightRepository.save(
-                new Flight(
-                    UUID.randomUUID(),
-                    generateFlightNumber()
-                    )
-            );
+            case CreateFlightCommand createFlightCommand ->
+            {
+                try
+                {
+                    var flight = new Flight(
+                        UUID.randomUUID(),
+                        createFlightCommand.aviaCompanyName(),
+                        createFlightCommand.scheduledAt(),
+                        createFlightCommand.landsAt(),
+                        createFlightCommand.departureAirportId(),
+                        createFlightCommand.destinationAirportId()
+                    );
+
+                    this.flightRepository.save(flight);
+
+                    return Either.right(flight);
+                }
+                catch (RuntimeException e)
+                {
+                    return Either.left(e);
+                }
+            }
         }
-    }
-
-    @Nonnull
-    private String generateFlightNumber(CreateFlightNumberPayload payload)
-    {
-        var res = new StringBuilder()
-            .append(flight);
-
-        return res.toString();
     }
 }
